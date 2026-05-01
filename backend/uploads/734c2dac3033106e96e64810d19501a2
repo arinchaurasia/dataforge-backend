@@ -1,0 +1,11 @@
+empId,name,email,age,gender,role,skills,city,salary
+EMP101,Aarav Sharma,aarav.sharma@gmail.com,23,Male,SDE 1,React|JS|CSS,Delhi,520000
+EMP102,Diya Verma,diya.verma@gmail.com,22,Female,SDE 1,Node|Express,Noida,480000
+EMP103,Kabir Singh,kabir.singh@gmail.com,24,Male,SDE 2,React|Node|MongoDB,Gurgaon,750000
+EMP104,Anaya Gupta,anaya.gupta@gmail.com,21,Female,UI Designer,Figma|CSS,Ghaziabad,420000
+EMP105,Vihaan Mehta,vihaan.mehta@gmail.com,25,Male,SDE 2,Node|SQL|API,Delhi,820000
+EMP106,Ishita Jain,ishita.jain@gmail.com,23,Female,SDE 1,React|Tailwind,Noida,500000
+EMP107,Arjun Nair,arjun.nair@gmail.com,26,Male,DevOps Engineer,Docker|AWS,Gurgaon,900000
+EMP108,Myra Kapoor,myra.kapoor@gmail.com,22,Female,UI Designer,Figma|UX,Delhi,450000
+EMP109,Rohan Das,rohan.das@gmail.com,27,Male,Data Analyst,Python|SQL,Ghaziabad,680000
+EMP110,Saanvi Rao,saanvi.rao@gmail.com,21,Female,SDE 1,React|JS,Noida,460000

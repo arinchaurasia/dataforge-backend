@@ -1,0 +1,65 @@
+empId,name,email,age,gender,role,skills,city,salary
+EMP101,Aarav Sharma,aarav.sharma@gmail.com,23,Male,SDE 1,React|JS|CSS,Delhi,520000
+EMP102,Diya Verma,diya.verma@gmail.com,22,Female,SDE 1,Node|Express,Noida,480000
+EMP103,Kabir Singh,kabir.singh@gmail.com,24,Male,SDE 2,React|Node|MongoDB,Gurgaon,750000
+EMP104,Anaya Gupta,anaya.gupta@gmail.com,21,Female,UI Designer,Figma|CSS,Ghaziabad,420000
+EMP105,Vihaan Mehta,vihaan.mehta@gmail.com,25,Male,SDE 2,Node|SQL|API,Delhi,820000
+EMP106,Ishita Jain,ishita.jain@gmail.com,23,Female,SDE 1,React|Tailwind,Noida,500000
+EMP107,Arjun Nair,arjun.nair@gmail.com,26,Male,DevOps Engineer,Docker|AWS,Gurgaon,900000
+EMP108,Myra Kapoor,myra.kapoor@gmail.com,22,Female,UI Designer,Figma|UX,Delhi,450000
+EMP109,Rohan Das,rohan.das@gmail.com,27,Male,Data Analyst,Python|SQL,Ghaziabad,680000
+EMP110,Saanvi Rao,saanvi.rao@gmail.com,21,Female,SDE 1,React|JS,Noida,460000
+
+EMP111,Aditya Kulkarni,aditya.kulkarni@gmail.com,28,Male,SDE 2,Node|MongoDB,Gurgaon,700000
+EMP112,Tara Bansal,tara.bansal@gmail.com,23,Female,UI Designer,Figma|AdobeXD,Delhi,540000
+EMP113,Reyansh Khanna,reyansh.khanna@gmail.com,24,Male,SDE 2,React|Node,Noida,560000
+EMP114,Meher Arora,meher.arora@gmail.com,22,Female,SDE 1,React|CSS,Ghaziabad,480000
+EMP115,Kunal Choudhary,kunal.choudhary@gmail.com,29,Male,SDE 2,Node|SQL,Delhi,720000
+EMP116,Ritika Malhotra,ritika.malhotra@gmail.com,25,Female,Data Analyst,Python|Excel,Noida,600000
+EMP117,Dev Patel,dev.patel@gmail.com,26,Male,DevOps Engineer,AWS|Docker,Gurgaon,630000
+EMP118,Simran Kaur,simran.kaur@gmail.com,23,Female,SDE 1,React|Tailwind,Delhi,510000
+EMP119,Nikhil Reddy,nikhil.reddy@gmail.com,27,Male,SDE 2,Node|API,Ghaziabad,660000
+EMP120,Pooja Sethi,pooja.sethi@gmail.com,21,Female,UI Designer,Figma,Noida,450000
+
+EMP121,Harsh Vardhan,harsh.vardhan@gmail.com,30,Male,Data Analyst,Python|SQL,Delhi,750000
+EMP122,Aisha Siddiqui,aisha.siddiqui@gmail.com,24,Female,SDE 1,React,Gurgaon,580000
+EMP123,Raj Malhotra,raj.malhotra@gmail.com,28,Male,SDE 2,Node,Noida,690000
+EMP124,Neeraj Saxena,neeraj.saxena@gmail.com,26,Male,SDE 2,React|Node,Ghaziabad,640000
+EMP125,Snehal Joshi,snehal.joshi@gmail.com,22,Female,UI Designer,Figma,Delhi,500000
+
+EMP126,Yash Agarwal,yash.agarwal@gmail.com,23,Male,SDE 1,JS|CSS,Noida,520000
+EMP127,Kriti Sharma,kriti.sharma@gmail.com,24,Female,SDE 2,Node,Gurgaon,570000
+EMP128,Aman Tripathi,aman.tripathi@gmail.com,25,Male,DevOps Engineer,Docker,Delhi,610000
+EMP129,Sakshi Tiwari,sakshi.tiwari@gmail.com,21,Female,SDE 1,React,Ghaziabad,460000
+EMP130,Rajat Kapoor,rajat.kapoor@gmail.com,27,Male,Data Analyst,Python,Noida,670000
+
+EMP131,Om Prakash,om.prakash@gmail.com,29,Male,SDE 2,Node,Gurgaon,710000
+EMP132,Shreya Menon,shreya.menon@gmail.com,23,Female,UI Designer,Figma,Delhi,530000
+EMP133,Vivek Anand,vivek.anand@gmail.com,26,Male,SDE 1,React,Noida,600000
+EMP134,Palak Gupta,palak.gupta@gmail.com,22,Female,SDE 1,HTML|CSS,Ghaziabad,480000
+EMP135,Ayush Mishra,ayush.mishra@gmail.com,24,Male,SDE 2,Node,Delhi,550000
+
+EMP136,Naina Kapoor,naina.kapoor@gmail.com,23,Female,Data Analyst,Python,Noida,520000
+EMP137,Karthik Iyer,karthik.iyer@gmail.com,27,Male,DevOps Engineer,AWS,Gurgaon,680000
+EMP138,Ira Chatterjee,ira.chatterjee@gmail.com,21,Female,UI Designer,Figma,Delhi,470000
+EMP139,Manish Yadav,manish.yadav@gmail.com,28,Male,SDE 2,Node,Ghaziabad,690000
+EMP140,Riddhi Shah,riddhi.shah@gmail.com,22,Female,SDE 1,React,Noida,490000
+
+
+
+EMP141,,noemail,25,Male,SDE 1,React,Delhi,500000
+EMP142,Rahul Mehta,rahul.mehta@gmail.com,,Male,SDE 2,Node,Noida,600000
+EMP143,Sneha Kapoor,sneha.kapoor@gmail.com,abc,Female,UI Designer,Figma,Gurgaon,450000
+EMP144,Arvind Kumar,arvind.kumar@gmail.com,28,Male,,Docker,Ghaziabad,630000
+EMP145,Priya Nair,priya.nair@gmail.com,25,Female,Data Analyst,,Delhi,580000
+EMP146,Karan Verma,karan.verma@gmail,27,Male,SDE 2,Node,Noida,660000
+EMP147,Neha Singh,,22,Female,SDE 1,React,Gurgaon,520000
+EMP148,Rohit Gupta,rohit.gmail.com,29,Male,SDE 2,Node,Ghaziabad,700000
+EMP149,Meena Iyer,meena.iyer@gmail.com,NaN,Female,UI Designer,Figma,Delhi,510000
+EMP150,Sachin Yadav,sachin.yadav@gmail.com,30,Male,Data Analyst,Python,Noida,
+
+EMP151,,invalidemail,23,Female,SDE 1,React,Delhi,450000
+EMP152,Amit Jain,amit.jain@gmail.com,twenty,Male,SDE 2,Node,Gurgaon,600000
+EMP153,Ritu Sharma,ritu.sharma@gmail.com,24,Female,SDE 1,React,,500000
+EMP154,Deepak Singh,deepak.singh@gmail.com,26,Male,SDE 2,Node,Delhi,NaN
+EMP155,Ankita Roy,ankita.roy@gmail.com,23,Female,UI Designer,Figma,Noida,

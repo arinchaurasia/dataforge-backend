@@ -1,0 +1,68 @@
+Emp ID,Name,Gender,Email,Age,City,Role,Skills
+1,Aarav Sharma,Male,aarav.sharma@gmail.com,23,Delhi,Frontend Developer,React|CSS|JS
+2,Diya Verma,Female,diya.verma@gmail.com,22,Noida,Backend Developer,Node|Express|MongoDB
+3,Kabir Singh,Male,kabir.singh@gmail.com,24,Gurgaon,Full Stack Developer,React|Node|MongoDB
+4,Anaya Gupta,Female,anaya.gupta@gmail.com,21,Ghaziabad,UI Designer,Figma|CSS|HTML
+5,Vihaan Mehta,Male,vihaan.mehta@gmail.com,25,Delhi,Backend Developer,Node|SQL|API
+6,Ishita Jain,Female,ishita.jain@gmail.com,23,Noida,Frontend Developer,React|Tailwind
+7,Arjun Nair,Male,arjun.nair@gmail.com,26,Gurgaon,DevOps Engineer,Docker|AWS|CI/CD
+8,Myra Kapoor,Female,myra.kapoor@gmail.com,22,Delhi,UI Designer,Figma|UX
+9,Rohan Das,Male,rohan.das@gmail.com,27,Ghaziabad,Data Analyst,Python|SQL|Pandas
+10,Saanvi Rao,Female,saanvi.rao@gmail.com,21,Noida,Frontend Developer,React|JS
+
+11,Aditya Kulkarni,Male,aditya.kulkarni@gmail.com,28,Gurgaon,Backend Developer,Node|MongoDB
+12,Tara Bansal,Female,tara.bansal@gmail.com,23,Delhi,UI Designer,Figma|AdobeXD
+13,Reyansh Khanna,Male,reyansh.khanna@gmail.com,24,Noida,Full Stack Developer,React|Node
+14,Meher Arora,Female,meher.arora@gmail.com,22,Ghaziabad,Frontend Developer,React|CSS
+15,Kunal Choudhary,Male,kunal.choudhary@gmail.com,29,Delhi,Backend Developer,Node|SQL
+16,Ritika Malhotra,Female,ritika.malhotra@gmail.com,25,Noida,Data Analyst,Python|Excel
+17,Dev Patel,Male,dev.patel@gmail.com,26,Gurgaon,DevOps Engineer,AWS|Docker
+18,Simran Kaur,Female,simran.kaur@gmail.com,23,Delhi,Frontend Developer,React|Tailwind
+19,Nikhil Reddy,Male,nikhil.reddy@gmail.com,27,Ghaziabad,Backend Developer,Node|API
+20,Pooja Sethi,Female,pooja.sethi@gmail.com,21,Noida,UI Designer,Figma
+
+21,Harsh Vardhan,Male,harsh.vardhan@gmail.com,30,Delhi,Data Analyst,Python|SQL
+22,Aisha Siddiqui,Female,aisha.siddiqui@gmail.com,24,Gurgaon,Frontend Developer,React
+23,Raj Malhotra,Male,raj.malhotra@gmail.com,28,Noida,Backend Developer,Node
+24,Neeraj Saxena,Male,neeraj.saxena@gmail.com,26,Ghaziabad,Full Stack Developer,React|Node
+25,Snehal Joshi,Female,snehal.joshi@gmail.com,22,Delhi,UI Designer,Figma
+26,Yash Agarwal,Male,yash.agarwal@gmail.com,23,Noida,Frontend Developer,JS|CSS
+27,Kriti Sharma,Female,kriti.sharma@gmail.com,24,Gurgaon,Backend Developer,Node
+28,Aman Tripathi,Male,aman.tripathi@gmail.com,25,Delhi,DevOps Engineer,Docker
+29,Sakshi Tiwari,Female,sakshi.tiwari@gmail.com,21,Ghaziabad,Frontend Developer,React
+30,Rajat Kapoor,Male,rajat.kapoor@gmail.com,27,Noida,Data Analyst,Python
+
+31,Om Prakash,Male,om.prakash@gmail.com,29,Gurgaon,Backend Developer,Node
+32,Shreya Menon,Female,shreya.menon@gmail.com,23,Delhi,UI Designer,Figma
+33,Vivek Anand,Male,vivek.anand@gmail.com,26,Noida,Frontend Developer,React
+34,Palak Gupta,Female,palak.gupta@gmail.com,22,Ghaziabad,Frontend Developer,HTML|CSS
+35,Ayush Mishra,Male,ayush.mishra@gmail.com,24,Delhi,Backend Developer,Node
+36,Naina Kapoor,Female,naina.kapoor@gmail.com,23,Noida,Data Analyst,Python
+37,Karthik Iyer,Male,karthik.iyer@gmail.com,27,Gurgaon,DevOps Engineer,AWS
+38,Ira Chatterjee,Female,ira.chatterjee@gmail.com,21,Delhi,UI Designer,Figma
+39,Manish Yadav,Male,manish.yadav@gmail.com,28,Ghaziabad,Backend Developer,Node
+40,Riddhi Shah,Female,riddhi.shah@gmail.com,22,Noida,Frontend Developer,React
+
+41,Ayaan Khan,Male,ayaan.khan@gmail.com,25,Delhi,Backend Developer,Node
+42,Navya Rathi,Female,navya.rathi@gmail.com,23,Gurgaon,Frontend Developer,React
+43,Samar Bhatia,Male,samar.bhatia@gmail.com,24,Noida,Data Analyst,Python
+44,Tanvi Goyal,Female,tanvi.goyal@gmail.com,22,Delhi,UI Designer,Figma
+45,Rishi Arora,Male,rishi.arora@gmail.com,26,Noida,Backend Developer,Node
+46,Divya Saxena,Female,divya.saxena@gmail.com,26,Ghaziabad,Frontend Developer,React
+47,Keshav Pandey,Male,keshav.pandey@gmail.com,27,Delhi,DevOps Engineer,AWS
+48,Ankit Soni,Male,ankit.soni@gmail.com,27,Gurgaon,Backend Developer,Node
+49,Payal Jain,Female,payal.jain@gmail.com,22,Noida,Frontend Developer,React
+50,Varun Khurana,Male,varun.khurana@gmail.com,29,Delhi,Data Analyst,Python
+
+51,Aditi Sharma,Female,aditi.sharma@gmail.com,24,Delhi,Frontend Developer,React
+52,Rahul Mehta,Male,rahul.mehta@gmail.com,26,Noida,Backend Developer,Node
+53,Sneha Kapoor,Female,sneha.kapoor@gmail.com,23,Gurgaon,UI Designer,Figma
+54,Arvind Kumar,Male,arvind.kumar@gmail.com,28,Ghaziabad,DevOps Engineer,Docker
+55,Priya Nair,Female,priya.nair@gmail.com,25,Delhi,Data Analyst,Python
+56,Karan Verma,Male,karan.verma@gmail.com,27,Noida,Backend Developer,Node
+57,Neha Singh,Female,neha.singh@gmail.com,22,Gurgaon,Frontend Developer,React
+58,Rohit Gupta,Male,rohit.gupta@gmail.com,29,Ghaziabad,Backend Developer,Node
+59,Meena Iyer,Female,meena.iyer@gmail.com,23,Delhi,UI Designer,Figma
+60,Sachin Yadav,Male,sachin.yadav@gmail.com,30,Noida,Data Analyst,Python
+
+61–100 continue same pattern (balanced Male/Female, no duplicates)
