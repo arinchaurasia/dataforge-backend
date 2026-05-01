@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: 139, 92, 246;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #020617;
+  color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* 🎯 Fix: Allow horizontal scrolling when components overflow */
+  overflow-x: auto; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { 
+  background: #1e293b; 
+  border-radius: 10px;
+  border: 2px solid #020617;
+}
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+@layer components {
+  .glass-card {
+    @apply bg-slate-900/40 backdrop-blur-md border border-white/5 shadow-2xl;
+  }
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.015);
+}
