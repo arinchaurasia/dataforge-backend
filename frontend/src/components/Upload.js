@@ -58,7 +58,7 @@ const Upload = ({ onUploadSuccess }) => {
             </div>
          </div>
           <a 
-            href="/Employee details.csv" 
+            href="/Employee%20details.csv" 
            download="Employee details.csv"
            className="px-4 py-2 bg-slate-800 hover:bg-primary-600 text-white text-[10px] font-black rounded-lg transition-all shadow-lg active:scale-95"
          >
