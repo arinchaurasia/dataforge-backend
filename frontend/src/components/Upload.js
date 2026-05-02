@@ -23,7 +23,7 @@ const Upload = ({ onUploadSuccess }) => {
     setUploading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/upload', formData, {
+      await axios.post('https://dataforge-backend-kjsj.onrender.com/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`

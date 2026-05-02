@@ -35,7 +35,7 @@ function Chart() {
   const fetchChartData = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/grouped-stats", {
+      const res = await axios.get("https://dataforge-backend-kjsj.onrender.com/api/grouped-stats", {
         headers: { Authorization: `Bearer ${token}` },
         params: { groupBy }
       });
