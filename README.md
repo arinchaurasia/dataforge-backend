@@ -2,7 +2,6 @@
 
 DataForge Pro is a high-performance, full-stack data management platform designed for seamless CSV processing, real-time analytics, and data integrity auditing. Built with a focus on visual excellence and real-time synchronization, it empowers users to transform raw datasets into actionable insights with professional-grade precision.
 
-![DataForge Dashboard](https://via.placeholder.com/1200x600/0f172a/38bdf8?text=DataForge+Pro+Dashboard+Preview)
 
 ## 🚀 Key Features
 
