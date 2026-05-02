@@ -15,7 +15,7 @@ function Login({ onLoginSuccess }) {
     
     try {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-      const res = await axios.post(`http://localhost:5000${endpoint}`, {
+      const res = await axios.post(`https://dataforge-backend-kjsj.onrender.com${endpoint}`, {
         email,
         password
       });
