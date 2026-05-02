@@ -11,10 +11,26 @@ exports.register = async (req, res) => {
   const otpExpires = Date.now() + 10 * 60 * 1000; // 10 min
 
   try {
+    let user = await User.findOne({ email });
+
+    if (user && user.isVerified) {
+      return res.status(400).json({ message: 'User already exists and is verified' });
+    }
+
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed, otp, otpExpires });
+
+    if (user) {
+      // Update existing unverified user with new OTP
+      user.password = hashed;
+      user.otp = otp;
+      user.otpExpires = otpExpires;
+      await user.save();
+    } else {
+      // Create new user
+      user = await User.create({ email, password: hashed, otp, otpExpires });
+    }
     
-    console.log('Sending email to:', user.email);
+    console.log('Attempting to send email to:', user.email);
     await sendEmail({
       email: user.email,
       subject: 'Verify Your DataForge Account',
@@ -24,8 +40,8 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ message: 'OTP sent to email' });
   } catch (err) {
-    console.error('Registration error:', err.message);
-    res.status(400).json({ message: err.message || 'User already exists or error occurred' });
+    console.error('Registration error details:', err);
+    res.status(400).json({ message: err.message || 'Error occurred during registration' });
   }
 };
 
