@@ -14,15 +14,18 @@ exports.register = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashed, otp, otpExpires });
     
+    console.log('Sending email to:', user.email);
     await sendEmail({
       email: user.email,
       subject: 'Verify Your DataForge Account',
       message: `Your verification code is ${otp}. It expires in 10 minutes.`
     });
+    console.log('Email sent successfully');
 
     res.status(201).json({ message: 'OTP sent to email' });
   } catch (err) {
-    res.status(400).json({ message: 'User already exists or error occurred' });
+    console.error('Registration error:', err.message);
+    res.status(400).json({ message: err.message || 'User already exists or error occurred' });
   }
 };
 

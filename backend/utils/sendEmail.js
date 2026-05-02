@@ -16,7 +16,12 @@ const sendEmail = async (options) => {
     text: options.message
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Nodemailer Error:', error.message);
+    throw new Error('Failed to send verification email. Please check your EMAIL_PASS and connection.');
+  }
 };
 
 module.exports = sendEmail;
