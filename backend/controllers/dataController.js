@@ -16,10 +16,15 @@ const buildFilter = (userId, query) => {
       { role: searchRegex },
       { skills: searchRegex },
       { empId: searchRegex },
-      { gender: searchRegex }
+      { gender: { $regex: `^${q}`, $options: 'i' } } // 🎯 Fix: Prevent 'male' matching 'female'
     ];
   } else if (field && value) {
-    filter[field] = { $regex: value, $options: 'i' };
+    if (field === 'gender') {
+      // For gender, we want to match from the start to avoid 'male' matching 'female'
+      filter[field] = { $regex: `^${value}`, $options: 'i' };
+    } else {
+      filter[field] = { $regex: value, $options: 'i' };
+    }
   }
 
   return filter;

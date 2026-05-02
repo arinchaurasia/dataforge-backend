@@ -68,13 +68,26 @@ const Filter = ({ onFilter, onGlobalSearch, onExport }) => {
         <div className="w-[1px] h-8 bg-white/10 hidden sm:block" />
         <div className="flex flex-col gap-1 px-2">
           <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Value</label>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            className="bg-transparent border-none text-slate-200 text-sm py-1 px-1 outline-none focus:ring-0 placeholder:text-slate-600 w-36"
-          />
+          {field === 'gender' ? (
+            <select
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="bg-transparent border-none text-slate-200 text-sm py-1 px-1 outline-none focus:ring-0 cursor-pointer w-36"
+            >
+              <option value="" className="bg-slate-900 text-slate-400 italic">Select Gender</option>
+              <option value="Male" className="bg-slate-900">Male</option>
+              <option value="Female" className="bg-slate-900">Female</option>
+              <option value="Other" className="bg-slate-900">Other</option>
+            </select>
+          ) : (
+            <input
+              type="text"
+              placeholder="Search..."
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="bg-transparent border-none text-slate-200 text-sm py-1 px-1 outline-none focus:ring-0 placeholder:text-slate-600 w-36"
+            />
+          )}
         </div>
         <div className="flex gap-2 ml-auto sm:ml-0">
           <button
