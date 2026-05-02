@@ -10,7 +10,7 @@ import Pagination from './components/Pagination';
 import Login from './components/Login';
 import Chart from './components/Chart';
 
-const socket = io('http://localhost:5000');
+const socket = io('https://dataforge-backend-kjsj.onrender.com');
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -35,7 +35,7 @@ function App() {
     if (!token) return;
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/data', {
+        const response = await axios.get('https://dataforge-backend-kjsj.onrender.com/api/data', {
         headers: { Authorization: `Bearer ${token}` },
         params: { page, limit: 10, field: filters.field, value: filters.value, q: filters.q },
       });
@@ -52,7 +52,7 @@ function App() {
   const fetchStats = useCallback(async () => {
     if (!token) return;
     try {
-      const res = await axios.get('http://localhost:5000/api/stats', {
+      const res = await axios.get('https://dataforge-backend-kjsj.onrender.com/api/stats', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(res.data);
@@ -63,7 +63,7 @@ function App() {
 
   const handleExport = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/export', {
+      const response = await axios.get('https://dataforge-backend-kjsj.onrender.com/api/export', {
         headers: { Authorization: `Bearer ${token}` },
         params: { field: filters.field, value: filters.value, q: filters.q },
         responseType: 'blob'
@@ -83,7 +83,7 @@ function App() {
   const handleClearData = async () => {
     if (!window.confirm("Wipe all data?")) return;
     try {
-      await axios.delete('http://localhost:5000/api/data', {
+      await axios.delete('https://dataforge-backend-kjsj.onrender.com/api/data', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setData([]);
