@@ -109,6 +109,33 @@ function App() {
     return () => { socket.off('dataUpdated'); };
   }, [fetchData, fetchStats]);
 
+  // 🛡️ Fix: Automatic Logout after 30 minutes of inactivity
+  useEffect(() => {
+    if (!token) return;
+
+    let timeout;
+    const resetTimer = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        handleLogout();
+        toast.error("Session expired due to inactivity", {
+            icon: '⏳',
+            style: { borderRadius: '15px', background: '#0f172a', color: '#fff', border: '1px border-white/10' }
+        });
+      }, 30 * 60 * 1000); // 30 Minutes
+    };
+
+    const events = ['mousemove', 'keydown', 'scroll', 'click'];
+    events.forEach(event => window.addEventListener(event, resetTimer));
+
+    resetTimer(); // Initialize
+
+    return () => {
+      clearTimeout(timeout);
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, [token]);
+
   const handleLoginSuccess = () => { setToken(localStorage.getItem('token')); };
   const handleLogout = () => { localStorage.removeItem('token'); setToken(null); };
 
