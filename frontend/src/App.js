@@ -112,8 +112,17 @@ function App() {
   const handleLoginSuccess = () => { setToken(localStorage.getItem('token')); };
   const handleLogout = () => { localStorage.removeItem('token'); setToken(null); };
 
-  const handleFilter = (field, value) => { setFilters({ field, value, q: '' }); setPage(1); };
-  const handleGlobalSearch = (query) => { setFilters({ field: '', value: '', q: query }); setPage(1); };
+  const handleFilter = (field, value) => { 
+    // 🎯 Fix: If filtering by gender, use anchors to force an exact match on the remote server
+    const processedValue = (field === 'gender' && value) ? `^${value}$` : value;
+    setFilters({ field, value: processedValue, q: '' }); 
+    setPage(1); 
+  };
+
+  const handleGlobalSearch = (query) => { 
+    setFilters({ field: '', value: '', q: query }); 
+    setPage(1); 
+  };
   const handleUploadSuccess = () => { setActiveTab('dashboard'); toast.success("Processing complete"); };
 
   const getScoreColor = (score) => {
