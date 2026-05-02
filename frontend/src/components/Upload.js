@@ -47,6 +47,24 @@ const Upload = ({ onUploadSuccess }) => {
       <p className="text-slate-400 mb-8">
         Import your data effortlessly. Upload a CSV file and watch it sync in real-time across your dashboard.
       </p>
+      
+      {/* 🎯 Fix: Professional Download Link for Sample Data */}
+      <div className="mb-8 p-4 bg-primary-500/5 border border-primary-500/10 rounded-2xl flex items-center justify-between">
+         <div className="flex items-center gap-3">
+            <span className="text-xl">📄</span>
+            <div>
+               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Test Workflow</p>
+               <p className="text-xs font-bold text-slate-300">Employee details.csv</p>
+            </div>
+         </div>
+         <a 
+           href="/sample.csv" 
+           download="Employee_details_sample.csv"
+           className="px-4 py-2 bg-slate-800 hover:bg-primary-600 text-white text-[10px] font-black rounded-lg transition-all shadow-lg active:scale-95"
+         >
+           DOWNLOAD SAMPLE
+         </a>
+      </div>
 
       <div className="space-y-6">
         <div className="relative border-2 border-dashed border-slate-700 rounded-xl p-10 text-center hover:border-primary-500 transition-colors group">

@@ -10,6 +10,7 @@ DataForge Pro is a high-performance, full-stack data management platform designe
 - **📊 Dynamic Visualizations**: Interactive charts providing breakdown by demographics, salary metrics, and organizational roles.
 - **🔍 Advanced Filtering Engine**: Global search and field-specific filtering (including strict gender matching) to navigate massive datasets effortlessly.
 - **📥 Professional Export**: One-click CSV export of processed and cleaned data.
+- **📁 Workflow Testing**: Integrated "Employee details.csv" sample data to allow immediate testing of the ingestion and auditing pipeline.
 - **🔑 Secure Authentication**: Industry-standard JWT-based authentication with protected API endpoints.
 
 ## 🛠️ Technology Stack
