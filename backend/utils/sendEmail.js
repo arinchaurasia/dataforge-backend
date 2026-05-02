@@ -3,18 +3,11 @@ const nodemailer = require('nodemailer');
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    family: 4,
+    family: 4, // Force IPv4
     auth: {
       user: process.env.EMAIL_USER, 
       pass: process.env.EMAIL_PASS  
-    },
-    tls: {
-      rejectUnauthorized: false // Helps with some network restrictions
-    },
-    connectionTimeout: 10000, // 10 seconds timeout
+    }
   });
 
   const mailOptions = {
@@ -27,8 +20,8 @@ const sendEmail = async (options) => {
   try {
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    console.error('Nodemailer Error:', error.message);
-    throw new Error('Failed to send verification email. Please check your EMAIL_PASS and connection.');
+    console.error('FULL NODEMAILER ERROR:', error);
+    throw new Error(`Email failed: ${error.message}`);
   }
 };
 
