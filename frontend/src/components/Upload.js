@@ -57,9 +57,9 @@ const Upload = ({ onUploadSuccess }) => {
                <p className="text-xs font-bold text-slate-300">Employee details.csv</p>
             </div>
          </div>
-         <a 
-           href="/sample.csv" 
-           download="Employee_details_sample.csv"
+          <a 
+            href="/Employee details.csv" 
+           download="Employee details.csv"
            className="px-4 py-2 bg-slate-800 hover:bg-primary-600 text-white text-[10px] font-black rounded-lg transition-all shadow-lg active:scale-95"
          >
            DOWNLOAD SAMPLE
