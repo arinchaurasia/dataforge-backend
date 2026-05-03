@@ -1,25 +1,24 @@
-const Brevo = require('@getbrevo/brevo');
+const axios = require('axios');
 
 /**
- * Robust Email Utility - VERSION 9 (DESTRUCTURED BREVO API)
- * Using destructuring to access the classes directly, which is required by newer versions of the SDK.
+ * Robust Email Utility - VERSION 10 (DIRECT REST API)
+ * Bypassing all SDK versioning issues by calling the Brevo REST API directly via Axios.
+ * This is the most reliable method as it has zero dependency on the Brevo library structure.
  */
 const sendEmail = async (options) => {
-  console.log("📨 Attempting to send email via Brevo API to:", options.email);
+  console.log("📨 Attempting to send email via Brevo REST API to:", options.email);
 
   try {
-    // 🎯 Use destructuring to get the classes
-    const { TransactionalEmailsApi, SendSmtpEmail, TransactionalEmailsApiApiKeys } = Brevo;
-    
-    const apiInstance = new TransactionalEmailsApi();
-    
-    // Set API Key
-    apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
-
-    const sendSmtpEmail = new SendSmtpEmail();
-
-    sendSmtpEmail.subject = options.subject;
-    sendSmtpEmail.htmlContent = `
+    const response = await axios.post('https://api.brevo.com/v3/smtp/email', {
+      sender: { 
+        name: "DataForge Pro", 
+        email: process.env.EMAIL_USER 
+      },
+      to: [{ 
+        email: options.email 
+      }],
+      subject: options.subject,
+      htmlContent: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b; background-color: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
           <h1 style="color: #4f46e5; text-align: center;">DataForge Pro</h1>
           <h2 style="color: #0f172a;">Password Reset Request</h2>
@@ -34,19 +33,22 @@ const sendEmail = async (options) => {
             If you did not request this, please ignore this email.
           </p>
         </div>
-    `;
-    
-    sendSmtpEmail.sender = { "name": "DataForge Pro", "email": process.env.EMAIL_USER };
-    sendSmtpEmail.to = [{ "email": options.email }];
+      `
+    }, {
+      headers: {
+        'api-key': process.env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
 
-    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log("✨ Email sent successfully via Brevo API! Message ID:", data.messageId);
-    return data;
+    console.log("✨ Email sent successfully via Brevo REST API! ID:", response.data.messageId);
+    return response.data;
 
   } catch (error) {
-    console.error("❌ BREVO API FAILURE:", error.message);
-    if (error.response && error.response.body) {
-      console.error("Brevo Error Details:", JSON.stringify(error.response.body, null, 2));
+    console.error("❌ BREVO REST API FAILURE:", error.response?.data?.message || error.message);
+    if (error.response && error.response.data) {
+      console.error("Full API Error Details:", JSON.stringify(error.response.data, null, 2));
     }
     throw error;
   }
