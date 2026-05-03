@@ -4,11 +4,12 @@ import axios from "axios";
 const API_BASE = "https://dataforge-backend-kjsj.onrender.com";
 
 function Login({ onLoginSuccess }) {
-  const [view, setView] = useState("login"); // login, register, forgot, reset
+  const [view, setView] = useState("login"); // login, register, forgot, reset, verify
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetToken, setResetToken] = useState("");
+  const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -37,12 +38,17 @@ function Login({ onLoginSuccess }) {
         localStorage.setItem("userEmail", res.data.email);
         onLoginSuccess();
       } else if (view === "register") {
-        await axios.post(`${API_BASE}/api/auth/register`, { email, password });
-        setView("login");
-        setMessage("Registration successful! Please login.");
+        const res = await axios.post(`${API_BASE}/api/auth/register`, { email, password });
+        setView("verify");
+        setMessage(res.data.message);
+      } else if (view === "verify") {
+        const res = await axios.post(`${API_BASE}/api/auth/verify-otp`, { email, otp });
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userEmail", res.data.email);
+        onLoginSuccess();
       } else if (view === "forgot") {
         await axios.post(`${API_BASE}/api/auth/forgot-password`, { email });
-        setMessage("If an account exists, a reset link has been sent to your email.");
+        setMessage("A reset link has been sent to your email.");
       } else if (view === "reset") {
         if (password !== confirmPassword) {
           setError("Passwords do not match");
@@ -51,11 +57,32 @@ function Login({ onLoginSuccess }) {
         }
         await axios.post(`${API_BASE}/api/auth/reset-password`, { token: resetToken, password });
         setMessage("Password reset successful! You can now login.");
+        setPassword("");
+        setConfirmPassword("");
         setView("login");
         window.history.pushState({}, "", "/"); // Clear URL
       }
     } catch (err) {
-      setError(err.response?.data?.error || "An error occurred. Please try again.");
+      if (err.response?.status === 401 && err.response?.data?.needsVerification) {
+        setView("verify");
+        setEmail(err.response.data.email);
+        setError("Account not verified. OTP sent to your email.");
+      } else {
+        setError(err.response?.data?.error || "An error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await axios.post(`${API_BASE}/api/auth/resend-otp`, { email });
+      setMessage(res.data.message);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to resend OTP");
     } finally {
       setLoading(false);
     }
@@ -66,6 +93,7 @@ function Login({ onLoginSuccess }) {
       case "register": return { title: "Get Started", subtitle: "Join the next generation of data analytics" };
       case "forgot": return { title: "Reset Password", subtitle: "Enter your email to receive a reset link" };
       case "reset": return { title: "New Password", subtitle: "Secure your account with a new password" };
+      case "verify": return { title: "Verify Account", subtitle: "Enter the 6-digit code sent to your email" };
       default: return { title: "Welcome Back", subtitle: "Sign in to your DataForge Pro account" };
     }
   };
@@ -96,7 +124,7 @@ function Login({ onLoginSuccess }) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {view !== "reset" && (
+            {(view !== "reset" && view !== "verify") && (
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Work Email</label>
                 <input 
@@ -107,6 +135,28 @@ function Login({ onLoginSuccess }) {
                   value={email}
                   onChange={e => setEmail(e.target.value)} 
                 />
+              </div>
+            )}
+
+            {view === "verify" && (
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Verification Code</label>
+                <input 
+                  type="text" 
+                  required
+                  maxLength="6"
+                  placeholder="000000" 
+                  className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-5 py-4 text-slate-200 text-center text-2xl tracking-[0.5em] font-black placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all duration-300 shadow-inner"
+                  value={otp}
+                  onChange={e => setOtp(e.target.value.replace(/\D/g, ""))} 
+                />
+                <button 
+                  type="button"
+                  onClick={handleResendOTP}
+                  className="text-[10px] text-primary-400 font-bold hover:underline ml-1"
+                >
+                  Didn't receive code? Resend
+                </button>
               </div>
             )}
 
@@ -176,7 +226,8 @@ function Login({ onLoginSuccess }) {
               ) : (
                 view === "login" ? "Sign In" : 
                 view === "register" ? "Create Account" : 
-                view === "forgot" ? "Send Link" : "Reset Password"
+                view === "forgot" ? "Send Link" : 
+                view === "verify" ? "Verify Code" : "Reset Password"
               )}
             </button>
 
@@ -191,17 +242,23 @@ function Login({ onLoginSuccess }) {
             )}
           </form>
 
-          {(view === "login" || view === "register") && (
+          {(view === "login" || view === "register" || view === "verify") && (
             <div className="mt-10 pt-8 border-t border-white/5 text-center">
-              <p className="text-slate-500 text-sm font-medium">
-                {view === "login" ? "New to DataForge?" : "Already have an account?"}
-                <button 
-                  onClick={() => setView(view === "login" ? "register" : "login")}
-                  className="ml-2 text-white font-black hover:text-primary-400 transition-colors"
-                >
-                  {view === "login" ? "Create Account" : "Login Here"}
-                </button>
+              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+                {view === "login" ? "Don't have an account?" : 
+                 view === "verify" ? "Need to try another email?" : "Already have an account?"}
               </p>
+              <button 
+                type="button"
+                onClick={() => {
+                  setView(view === "login" ? "register" : "login");
+                  setError("");
+                  setMessage("");
+                }}
+                className="text-primary-400 text-xs font-black hover:text-primary-300 transition-colors uppercase tracking-widest"
+              >
+                {view === "login" ? "Register Now" : "Back to Login"}
+              </button>
             </div>
           )}
         </div>

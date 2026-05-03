@@ -16,9 +16,28 @@ exports.register = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed });
+    
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    res.status(201).json({ message: "User registered successfully", userId: user._id });
+    const user = await User.create({ 
+      email, 
+      password: hashed,
+      verificationOTP: otp,
+      isVerified: false
+    });
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "DataForge Pro - Verify Your Account",
+        message: `Your verification code is: ${otp}`
+      });
+    } catch (err) {
+      console.error("Verification Email Failed:", err);
+    }
+
+    res.status(201).json({ message: "OTP sent to your email. Please verify.", email: user.email });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -32,6 +51,10 @@ exports.login = async (req, res) => {
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    if (!user.isVerified) {
+      return res.status(401).json({ error: "Please verify your email first", needsVerification: true, email: user.email });
     }
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
@@ -105,6 +128,55 @@ exports.resetPassword = async (req, res) => {
     await user.save();
 
     res.json({ message: "Password reset successful" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+    
+    if (user.isVerified) return res.status(400).json({ error: "User already verified" });
+
+    if (user.verificationOTP !== otp) {
+      return res.status(400).json({ error: "Invalid OTP code" });
+    }
+
+    user.isVerified = true;
+    user.verificationOTP = undefined;
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    res.json({ message: "Email verified successfully", token, email: user.email });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.resendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+    if (user.isVerified) return res.status(400).json({ error: "User already verified" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.verificationOTP = otp;
+    await user.save();
+
+    await sendEmail({
+      email: user.email,
+      subject: "DataForge Pro - New Verification Code",
+      message: `Your new verification code is: ${otp}`
+    });
+
+    res.json({ message: "New OTP sent to your email" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
