@@ -1,20 +1,22 @@
-const SibApiV3Sdk = require('@getbrevo/brevo');
+const Brevo = require('@getbrevo/brevo');
 
 /**
- * Robust Email Utility - VERSION 8 (FIXED BREVO API)
- * Fixed the 'ApiClient is undefined' error by using the standard library access pattern.
+ * Robust Email Utility - VERSION 9 (DESTRUCTURED BREVO API)
+ * Using destructuring to access the classes directly, which is required by newer versions of the SDK.
  */
 const sendEmail = async (options) => {
   console.log("📨 Attempting to send email via Brevo API to:", options.email);
 
   try {
-    // 🎯 Fix: Correct way to initialize the Brevo client
-    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+    // 🎯 Use destructuring to get the classes
+    const { TransactionalEmailsApi, SendSmtpEmail, TransactionalEmailsApiApiKeys } = Brevo;
+    
+    const apiInstance = new TransactionalEmailsApi();
     
     // Set API Key
-    apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+    apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    const sendSmtpEmail = new SendSmtpEmail();
 
     sendSmtpEmail.subject = options.subject;
     sendSmtpEmail.htmlContent = `
