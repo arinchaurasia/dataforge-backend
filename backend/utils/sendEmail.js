@@ -1,20 +1,20 @@
-const Brevo = require('@getbrevo/brevo');
+const SibApiV3Sdk = require('@getbrevo/brevo');
 
 /**
- * Robust Email Utility - VERSION 7 (BREVO API)
- * Bypassing Render's SMTP firewall and Resend's domain restriction.
- * Brevo allows sending from a verified Gmail address even without a custom domain.
+ * Robust Email Utility - VERSION 8 (FIXED BREVO API)
+ * Fixed the 'ApiClient is undefined' error by using the standard library access pattern.
  */
 const sendEmail = async (options) => {
   console.log("📨 Attempting to send email via Brevo API to:", options.email);
 
   try {
-    let defaultClient = Brevo.ApiClient.instance;
-    let apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
+    // 🎯 Fix: Correct way to initialize the Brevo client
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+    
+    // Set API Key
+    apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
 
-    let apiInstance = new Brevo.TransactionalEmailsApi();
-    let sendSmtpEmail = new Brevo.SendSmtpEmail();
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
     sendSmtpEmail.subject = options.subject;
     sendSmtpEmail.htmlContent = `
@@ -33,6 +33,7 @@ const sendEmail = async (options) => {
           </p>
         </div>
     `;
+    
     sendSmtpEmail.sender = { "name": "DataForge Pro", "email": process.env.EMAIL_USER };
     sendSmtpEmail.to = [{ "email": options.email }];
 
@@ -42,7 +43,6 @@ const sendEmail = async (options) => {
 
   } catch (error) {
     console.error("❌ BREVO API FAILURE:", error.message);
-    // Log more details if available
     if (error.response && error.response.body) {
       console.error("Brevo Error Details:", JSON.stringify(error.response.body, null, 2));
     }
