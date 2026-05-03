@@ -1,47 +1,26 @@
-const nodemailer = require('nodemailer');
-const dns = require('dns');
+const Brevo = require('@getbrevo/brevo');
 
 /**
- * Robust Email Utility - VERSION 5 (IPv4 + Port 587)
- * We have bypassed IPv6. Now we are switching to Port 587 to avoid firewall blocks on Port 465.
+ * Robust Email Utility - VERSION 7 (BREVO API)
+ * Bypassing Render's SMTP firewall and Resend's domain restriction.
+ * Brevo allows sending from a verified Gmail address even without a custom domain.
  */
 const sendEmail = async (options) => {
-  console.log("📨 Attempting to send email to:", options.email);
+  console.log("📨 Attempting to send email via Brevo API to:", options.email);
 
   try {
-    // 🎯 We hardcode a known IPv4 address for smtp.gmail.com
-    const GMAIL_IPV4 = '74.125.142.108'; 
+    let defaultClient = Brevo.ApiClient.instance;
+    let apiKey = defaultClient.authentications['api-key'];
+    apiKey.apiKey = process.env.BREVO_API_KEY;
 
-    console.log(`🚀 Connecting directly to Gmail IPv4: ${GMAIL_IPV4} on Port 587`);
+    let apiInstance = new Brevo.TransactionalEmailsApi();
+    let sendSmtpEmail = new Brevo.SendSmtpEmail();
 
-    const transporter = nodemailer.createTransport({
-      host: GMAIL_IPV4,
-      port: 587,
-      secure: false, // Use STARTTLS instead of SSL/TLS
-      auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS  
-      },
-      // 🎯 Mandate IPv4
-      family: 4, 
-      timeout: 20000,
-      connectionTimeout: 20000,
-      tls: {
-        // 🎯 CRITICAL: We must specify the servername for the SSL certificate to match
-        servername: 'smtp.gmail.com',
-        rejectUnauthorized: false
-      }
-    });
-
-    const mailOptions = {
-      from: `"DataForge Pro Security" <${process.env.EMAIL_USER}>`,
-      to: options.email,
-      subject: options.subject,
-      text: options.message,
-      html: `
+    sendSmtpEmail.subject = options.subject;
+    sendSmtpEmail.htmlContent = `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b; background-color: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
           <h1 style="color: #4f46e5; text-align: center;">DataForge Pro</h1>
-          <h2 style="color: #0f172a;">Password Reset</h2>
+          <h2 style="color: #0f172a;">Password Reset Request</h2>
           <p>You requested a password reset for your DataForge account.</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${options.message.match(/https?:\/\/[^\s]+/)?.[0] || '#'}" 
@@ -53,16 +32,20 @@ const sendEmail = async (options) => {
             If you did not request this, please ignore this email.
           </p>
         </div>
-      `
-    };
+    `;
+    sendSmtpEmail.sender = { "name": "DataForge Pro", "email": process.env.EMAIL_USER };
+    sendSmtpEmail.to = [{ "email": options.email }];
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("✨ Email sent successfully! ID:", info.messageId);
-    return info;
+    const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log("✨ Email sent successfully via Brevo API! Message ID:", data.messageId);
+    return data;
 
   } catch (error) {
-    console.error("❌ MAIL SYSTEM FAILURE:", error.message);
-    console.error("Error Code:", error.code);
+    console.error("❌ BREVO API FAILURE:", error.message);
+    // Log more details if available
+    if (error.response && error.response.body) {
+      console.error("Brevo Error Details:", JSON.stringify(error.response.body, null, 2));
+    }
     throw error;
   }
 };
