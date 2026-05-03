@@ -73,10 +73,11 @@ exports.forgotPassword = async (req, res) => {
 
       res.json({ message: "Email sent" });
     } catch (err) {
+      console.error("FORGOT_PASSWORD_ERROR:", err);
       user.resetPasswordToken = undefined;
       user.resetPasswordExpires = undefined;
       await user.save();
-      return res.status(500).json({ error: "Email could not be sent" });
+      return res.status(500).json({ error: `Email delivery failed: ${err.message}` });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
