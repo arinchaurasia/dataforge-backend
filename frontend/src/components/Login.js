@@ -25,6 +25,16 @@ function Login({ onLoginSuccess }) {
     }
   }, []);
 
+  const switchView = (newView) => {
+    setView(newView);
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setOtp("");
+    setError("");
+    setMessage("");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -169,7 +179,7 @@ function Login({ onLoginSuccess }) {
                   {view === "login" && (
                     <button 
                       type="button" 
-                      onClick={() => setView("forgot")}
+                      onClick={() => switchView("forgot")}
                       className="text-[10px] text-primary-400 font-bold hover:underline"
                     >
                       Forgot?
@@ -234,7 +244,7 @@ function Login({ onLoginSuccess }) {
             {view === "forgot" && (
               <button 
                 type="button"
-                onClick={() => setView("login")}
+                onClick={() => switchView("login")}
                 className="w-full text-slate-500 text-xs font-bold hover:text-white transition-colors pt-2"
               >
                 Back to Login
@@ -251,9 +261,7 @@ function Login({ onLoginSuccess }) {
               <button 
                 type="button"
                 onClick={() => {
-                  setView(view === "login" ? "register" : "login");
-                  setError("");
-                  setMessage("");
+                  switchView(view === "login" ? "register" : "login");
                 }}
                 className="text-primary-400 text-xs font-black hover:text-primary-300 transition-colors uppercase tracking-widest"
               >
