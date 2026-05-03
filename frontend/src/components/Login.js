@@ -14,9 +14,9 @@ function Login({ onLoginSuccess }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path.startsWith("/reset-password/")) {
-      const token = path.split("/reset-password/")[1];
+    const hash = window.location.hash;
+    if (hash.startsWith("#/reset-password/")) {
+      const token = hash.split("#/reset-password/")[1];
       if (token) {
         setResetToken(token);
         setView("reset");

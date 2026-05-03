@@ -62,7 +62,7 @@ exports.forgotPassword = async (req, res) => {
     // In a real app, this would be a link to your frontend reset page
     // For this app, we'll just send the token and let the frontend handle the redirect/logic
     const frontendUrl = process.env.FRONTEND_URL || "https://dataforge-pro.vercel.app";
-    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`; 
+    const resetUrl = `${frontendUrl}/#/reset-password/${resetToken}`; 
 
     try {
       await sendEmail({
