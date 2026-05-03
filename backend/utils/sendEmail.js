@@ -9,6 +9,10 @@ const sendEmail = async (options) => {
   console.log("📨 Attempting to send email via Brevo REST API to:", options.email);
 
   try {
+    if (!process.env.BREVO_API_KEY || process.env.BREVO_API_KEY === 'your_brevo_api_key_here') {
+      throw new Error("BREVO_API_KEY is missing or not configured in environment variables.");
+    }
+
     const response = await axios.post('https://api.brevo.com/v3/smtp/email', {
       sender: { 
         name: "DataForge Pro", 
