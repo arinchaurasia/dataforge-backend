@@ -2,22 +2,22 @@ const nodemailer = require('nodemailer');
 const dns = require('dns');
 
 /**
- * Robust Email Utility - VERSION 4 (HARDCORE IPv4)
- * Bypassing DNS resolution entirely to stop the IPv6 ENETUNREACH error.
+ * Robust Email Utility - VERSION 5 (IPv4 + Port 587)
+ * We have bypassed IPv6. Now we are switching to Port 587 to avoid firewall blocks on Port 465.
  */
 const sendEmail = async (options) => {
   console.log("📨 Attempting to send email to:", options.email);
 
   try {
-    // 🎯 We hardcode a known IPv4 address for smtp.gmail.com to bypass DNS issues on Render
+    // 🎯 We hardcode a known IPv4 address for smtp.gmail.com
     const GMAIL_IPV4 = '74.125.142.108'; 
 
-    console.log(`🚀 Connecting directly to Gmail IPv4: ${GMAIL_IPV4}`);
+    console.log(`🚀 Connecting directly to Gmail IPv4: ${GMAIL_IPV4} on Port 587`);
 
     const transporter = nodemailer.createTransport({
       host: GMAIL_IPV4,
-      port: 465,
-      secure: true, 
+      port: 587,
+      secure: false, // Use STARTTLS instead of SSL/TLS
       auth: {
         user: process.env.EMAIL_USER, 
         pass: process.env.EMAIL_PASS  
