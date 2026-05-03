@@ -2,29 +2,39 @@ const nodemailer = require('nodemailer');
 const dns = require('dns');
 
 /**
- * Robust Email Utility
- * Optimized for Render deployment and Gmail SMTP
+ * Robust Email Utility - VERSION 3
+ * Specifically engineered to overcome IPv6 ENETUNREACH issues on Render/Cloud.
  */
 const sendEmail = async (options) => {
+  console.log("📨 Attempting to send email to:", options.email);
+
   try {
-    // 🎯 Use port 587 with STARTTLS and FORCE IPv4
+    // 🎯 Use Port 465 (SSL) which is often more reliable than 587 on some cloud networks
+    // 🎯 We use a custom lookup to FORCE IPv4 resolution
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // Use STARTTLS
+      port: 465,
+      secure: true, 
       auth: {
         user: process.env.EMAIL_USER, 
         pass: process.env.EMAIL_PASS  
       },
-      // 🎯 STRICTLY FORCE IPv4 to bypass ENETUNREACH errors on IPv6-restricted networks
+      // 🎯 THE KEY FIX: Force IPv4 at the socket level
+      family: 4, 
+      // 🎯 Custom DNS lookup to ensure we never even see an IPv6 address
       lookup: (hostname, options, callback) => {
-        dns.lookup(hostname, { family: 4 }, callback);
+        console.log(`🔍 Resolving ${hostname} via IPv4...`);
+        dns.lookup(hostname, { family: 4 }, (err, address, family) => {
+          if (err) console.error("❌ DNS Lookup Error:", err);
+          console.log(`✅ Resolved to: ${address} (IPv${family})`);
+          callback(err, address, family);
+        });
       },
-      timeout: 10000,
-      connectionTimeout: 10000,
+      timeout: 15000,
+      connectionTimeout: 15000,
       tls: {
         rejectUnauthorized: false,
-        minVersion: 'TLSv1.2'
+        servername: 'smtp.gmail.com'
       }
     });
 
@@ -33,50 +43,31 @@ const sendEmail = async (options) => {
       to: options.email,
       subject: options.subject,
       text: options.message,
-      // Add HTML version for better email client support
       html: `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
-          <div style="background-color: #4f46e5; padding: 30px; border-radius: 16px 16px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 800;">DataForge Pro</h1>
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b; background-color: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
+          <h1 style="color: #4f46e5; text-align: center;">DataForge Pro</h1>
+          <h2 style="color: #0f172a;">Password Reset Request</h2>
+          <p>You requested a password reset for your DataForge account.</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${options.message.match(/https?:\/\/[^\s]+/)?.[0] || '#'}" 
+               style="background-color: #4f46e5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+              Reset Password
+            </a>
           </div>
-          <div style="background-color: #f8fafc; padding: 40px; border-radius: 0 0 16px 16px; border: 1px solid #e2e8f0; border-top: none;">
-            <h2 style="color: #0f172a; margin-top: 0;">Password Reset Request</h2>
-            <p style="line-height: 1.6; color: #475569;">You are receiving this email because a password reset was requested for your account.</p>
-            <div style="margin: 30px 0; text-align: center;">
-              <a href="${options.message.match(/https?:\/\/[^\s]+/)?.[0] || '#'}" 
-                 style="background-color: #4f46e5; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);">
-                Reset Password
-              </a>
-            </div>
-            <p style="font-size: 13px; color: #64748b; line-height: 1.6;">
-              If the button above doesn't work, copy and paste this link into your browser:
-              <br/>
-              <span style="color: #4f46e5; word-break: break-all;">${options.message.match(/https?:\/\/[^\s]+/)?.[0] || ''}</span>
-            </p>
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
-            <p style="font-size: 12px; color: #94a3b8; text-align: center;">
-              If you did not request this, please ignore this email. Your password will remain unchanged.
-            </p>
-          </div>
-          <p style="text-align: center; font-size: 11px; color: #94a3b8; margin-top: 20px; text-transform: uppercase; letter-spacing: 0.1em;">
-            © 2026 DataForge Pro Analytics
-          </p>
+          <p style="font-size: 12px; color: #64748b;">If you did not request this, please ignore this email.</p>
         </div>
       `
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Email sent successfully:", info.messageId);
+    console.log("✨ Email sent successfully! ID:", info.messageId);
     return info;
 
   } catch (error) {
-    console.error("❌ CRITICAL EMAIL ERROR:", error.message);
-    if (error.code === 'EAUTH') {
-      console.error("Authentication failed. Please check EMAIL_USER and EMAIL_PASS (App Password).");
-    } else if (error.code === 'ENETUNREACH') {
-      console.error("Network unreachable. This often happens on Render with IPv6. Ensure the transporter is configured correctly.");
-    }
-    throw error; // Rethrow to handle in controller
+    console.error("❌ MAIL SYSTEM FAILURE:", error.message);
+    console.error("Error Code:", error.code);
+    console.error("Full Error details:", JSON.stringify(error, null, 2));
+    throw error;
   }
 };
 
