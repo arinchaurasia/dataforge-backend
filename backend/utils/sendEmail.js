@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const dns = require('dns');
 
 /**
  * Robust Email Utility
@@ -6,7 +7,7 @@ const nodemailer = require('nodemailer');
  */
 const sendEmail = async (options) => {
   try {
-    // 🎯 Use port 587 with STARTTLS for maximum compatibility
+    // 🎯 Use port 587 with STARTTLS and FORCE IPv4
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -15,7 +16,10 @@ const sendEmail = async (options) => {
         user: process.env.EMAIL_USER, 
         pass: process.env.EMAIL_PASS  
       },
-      // 🎯 Robust timeout and TLS settings
+      // 🎯 STRICTLY FORCE IPv4 to bypass ENETUNREACH errors on IPv6-restricted networks
+      lookup: (hostname, options, callback) => {
+        dns.lookup(hostname, { family: 4 }, callback);
+      },
       timeout: 10000,
       connectionTimeout: 10000,
       tls: {
